@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: raw_data
+    database: Akhil_db
+    schema: raw
+
+    tables:
+      - name: customers
+        description: "Raw customers data from API"
+
+        
+        columns:
+          - name: customer_id
+            tests:
+              - not_null
