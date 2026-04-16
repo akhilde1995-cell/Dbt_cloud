@@ -1,18 +1,18 @@
 {{ config(
+    schema='dw',
     materialized='incremental',
-    unique_key= 'customer_id',
+    unique_key=['claim_id','policy_id'],
     on_schema_change='append_new_columns',
     incremental_strategy='merge',
     pre_hook="{{ log_model_start() }}",
     post_hook="{{ log_model_success() }}"
-    
 ) }}
 
-select *
-from {{ source('raw_data', 'customers') }}
+SELECT
+claim_id,
+policy_id,
+claim_amount,
+approved_amount,
+payout_ratio
 
-{% if is_incremental() %}
-WHERE created_at > (SELECT MAX(created_at) FROM {{ this }})
-{% endif %}
-
-    
+FROM {{ ref('claims') }}
