@@ -2,6 +2,7 @@
     materialized='incremental',
     unique_key= 'agent_id',
     incremental_strategy='merge',
+    on_schema_change='append_new_columns',
     pre_hook="{{ log_model_start() }}",
     post_hook="{{ log_model_success() }}"
 ) }}
